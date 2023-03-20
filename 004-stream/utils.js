@@ -1,28 +1,44 @@
-import { logger, getMessageForLogger } from "./helpers.js";
+import { getResultMessage } from "./helpers.js";
 
 export const checkNumber = (inputData, input) => {
 
   const randNumber = String(Math.floor(Math.random() * 2) + 1);
-  let text = "";
+
+  let options = [];
 
     if (inputData === "exit") input.close();
 
-    if (isNaN(inputData) || inputData < 0 || inputData > 2) {
-      text="Неккоректное введённое значение";
-      console.log(`${text}! Введите число в диапозоне от 1 до 2 или "exit" для выхода`);
-      logger.error(getMessageForLogger("error", inputData, randNumber, text));
+    if (isNaN(inputData) || !["1","2"].includes(inputData)) {
+      options = [
+        "error",
+        inputData,
+        randNumber,
+        'Неккоректное введённое значение! Введите число в диапозоне от 1 до 2 или "exit" для выхода'
+      ];
+
+      getResultMessage(...options);
       return;
     }
 
     if (inputData === randNumber) {
-      text= 'Верно! Число отгадано';
-      console.log(text);
-      logger.log(getMessageForLogger("log", inputData, randNumber, text));
+      options = [
+        "log",
+        inputData,
+        randNumber,
+        'Верно! Число отгадано'
+      ];
+
+      getResultMessage(...options);
     }
     else {
-      text='Не угадал! Попробуй ещё раз';
-      console.log(text);
-      logger.log(getMessageForLogger("log", inputData, randNumber, text));
+      options = [
+        "log",
+        inputData,
+        randNumber,
+        'Не угадал! Попробуй ещё раз'
+      ];
+
+      getResultMessage(...options);
     }
   }
 

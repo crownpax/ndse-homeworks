@@ -11,6 +11,11 @@ export const getMessageForLogger = (type, inputvalue, randomNumber, text) => {
         type: type,
         value: inputvalue,
         exept: randomNumber,
-        description: text
+        textDescription: text
     }
+}
+
+export const getResultMessage = (type, inputvalue, randomNumber, text) => {
+    console.log(text);
+    logger[type](getMessageForLogger(type, inputvalue, randomNumber, text));
 }

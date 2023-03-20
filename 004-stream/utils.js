@@ -1,4 +1,4 @@
-import { logger, getErrorForLogger, getLogForLogger } from "./helpers.js";
+import { logger, getMessageForLogger } from "./helpers.js";
 
 export const checkNumber = (inputData, input) => {
 
@@ -8,20 +8,21 @@ export const checkNumber = (inputData, input) => {
     if (inputData === "exit") input.close();
 
     if (isNaN(inputData) || inputData < 0 || inputData > 2) {
-      console.log('Некорректное значение! Введите число в диапозоне от 1 до 2 или "exit" для выхода');
-      logger.error(getErrorForLogger(inputData, randNumber));
+      text="Неккоректное введённое значение";
+      console.log(`${text}! Введите число в диапозоне от 1 до 2 или "exit" для выхода`);
+      logger.error(getMessageForLogger("error", inputData, randNumber, text));
       return;
     }
 
     if (inputData === randNumber) {
       text= 'Верно! Число отгадано';
       console.log(text);
-      logger.log(getLogForLogger(inputData, randNumber, text));
+      logger.log(getMessageForLogger("log", inputData, randNumber, text));
     }
     else {
       text='Не угадал! Попробуй ещё раз';
       console.log(text);
-      logger.log(getLogForLogger(inputData, randNumber, text));
+      logger.log(getMessageForLogger("log", inputData, randNumber, text));
     }
   }
 

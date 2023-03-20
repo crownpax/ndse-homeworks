@@ -6,18 +6,9 @@ const stderr = fs.createWriteStream('logs/stderr.log');
 
 export const logger = new Console({stdout, stderr});
 
-export const getErrorForLogger = (inputvalue, randomNumber) => {
+export const getMessageForLogger = (type, inputvalue, randomNumber, text) => {
     return {
-        type: "error",
-        value: inputvalue,
-        exept: randomNumber,
-        description: "Неккоректное введённое значение"
-    }
-}
-
-export const getLogForLogger = (inputvalue, randomNumber, text) => {
-    return {
-        type: "log",
+        type: type,
         value: inputvalue,
         exept: randomNumber,
         description: text

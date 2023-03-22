@@ -21,7 +21,7 @@ app.get('/', function(req, res) {
 
 app.post('/api/user/login', (req,res) => {
     res.status(201);
-    res.json({id: 1, mail: "test@mail.ru"});
+    res.json({id: 1, mail: 'test@mail.ru'});
 });
 
 app.get('/api/books', (req,res) => {
@@ -38,7 +38,7 @@ app.get('/api/books/:id', (req,res) => {
         res.status(200);
         res.json(books[idx]);
     } else {
-        res.status(400);
+        res.status(404);
         res.json('The book was not found!');
     }
 });
@@ -95,7 +95,7 @@ app.put('/api/books/:id', (req,res) => {
         res.status(200);
         res.json(books[idx]);
     } else {
-        res.status(400);
+        res.status(404);
         res.json('You have got some error!');
     }
 });
@@ -108,7 +108,7 @@ app.delete('/api/books/:id', (req,res) => {
     if(idx !== -1){
         books.splice(idx, 1);
         res.status(200);
-        res.json({result: true, desc: "The book was successfully deleted"});
+        res.json({result: 'ok', desc: 'The book was successfully deleted'});
     } else {
         res.status(400);
         res.json('The book does not exist!');

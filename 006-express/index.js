@@ -39,7 +39,7 @@ app.get('/api/books/:id', (req,res) => {
         res.json(books[idx]);
     } else {
         res.status(404);
-        res.json('The book was not found!');
+        res.json({result: 'error', desc: 'The book was not found!'});
     }
 });
 
@@ -96,7 +96,7 @@ app.put('/api/books/:id', (req,res) => {
         res.json(books[idx]);
     } else {
         res.status(404);
-        res.json('You have got some error!');
+        res.json({result: 'error', desc: 'You have got some error!'});
     }
 });
 
@@ -111,7 +111,7 @@ app.delete('/api/books/:id', (req,res) => {
         res.json({result: 'ok', desc: 'The book was successfully deleted'});
     } else {
         res.status(400);
-        res.json('The book does not exist!');
+        res.json({result: 'error', desc: 'The book does not exist!'});
     }
 });
 

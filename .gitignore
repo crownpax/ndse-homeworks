@@ -1,3 +1,8 @@
+# IDE
 .idea
 
+# packages
 node_modules/
+
+# configs
+.env

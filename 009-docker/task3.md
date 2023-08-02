@@ -25,7 +25,7 @@ docker.io/library/node:15.14
 -  ## Запустите контейнер с именем `first_node` из образа node версии 15.14 в фоновом режиме, подключив папку `data` из текущей директории в `/var/first/data` контейнера.
 
 _Решение:_ <br>
-`docker run -d -v $(pwd)/009-docker/data:/var/second/data --name first_node node:15.14 sleep infinity`
+`docker run -d -v $(pwd)/009-docker/data:/var/first/data --name first_node node:15.14 sleep infinity`
 
 _Лог:_ <br>
 ```

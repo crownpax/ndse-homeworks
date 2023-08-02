@@ -31,8 +31,7 @@ _Лог:_ <br>
 ```
 Welcome to Node.js v15.14.0.
 Type ".help" for more information.
-> console.log(process.env.NAME + " " + process.env.SURNAME)
-Denis Fedorenko
+>
 ```
 
 - ## В интерактивной среде выполнения node выполните скрипт, который выведет на экран приветсвтие: `Привет, <ваше имя> <ваша фамилия>!`, эти данные должны быть получены из переменных среды.

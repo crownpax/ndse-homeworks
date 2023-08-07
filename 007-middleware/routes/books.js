@@ -28,25 +28,33 @@ router.get('/:id', (req,res) => {
 });
 
 router.post('/', fileMulter.single('book'), (req,res) => {
-    const {books} = bookStorage;
+
     const {
+        id,
         title,
         description,
         authors,
         favorite,
         fileCover,
-        fileName
     } = req.body;
 
     const newBook = new Book(
+        id,
         title,
         description,
         authors,
         favorite,
         fileCover,
-        fileName,
-        req.file
+        req?.file?.filename,
+        req?.file?.path
     );
+
+    const {books} = bookStorage;
+
+    if(!req.file) {
+        return res.status(404).json({result: 'error', desc: 'You should to transfer a book key with file'});
+    }
+
     books.push(newBook);
 
     res.status(201);
@@ -54,20 +62,23 @@ router.post('/', fileMulter.single('book'), (req,res) => {
 });
 
 router.put('/:id', fileMulter.single('book'), (req,res) => {
-    const {books} = bookStorage;
+
     const {
         title,
         description,
         authors,
         favorite,
         fileCover,
-        fileName,
-        fileBook
     } = req.body;
     const {id} = req.params;
-    const {filename, path} = req.file;
+
+    const {books} = bookStorage;
 
     const idx = books.findIndex(el => el.id === id);
+
+    if(!req.file) {
+        return res.status(404).json({result: 'error', desc: 'You should to transfer a book key with file'});
+    }
 
     if (idx !== -1){
         books[idx] = {
@@ -77,8 +88,8 @@ router.put('/:id', fileMulter.single('book'), (req,res) => {
             authors,
             favorite,
             fileCover,
-            fileName: filename || fileName,
-            fileBook: path || fileBook
+            fileName: req?.file?.filename,
+            fileBook: req?.file?.path
         }
 
         res.status(200);
@@ -92,7 +103,7 @@ router.put('/:id', fileMulter.single('book'), (req,res) => {
 router.delete('/:id', (req,res) => {
     const {books} = bookStorage;
     const {id} = req.params;
-    const idx = books.findIndex(el => el.id === id);
+    const idx = books.findIndex((book) => book.id === id);
 
     if(idx !== -1){
         books.splice(idx, 1);
@@ -105,10 +116,15 @@ router.delete('/:id', (req,res) => {
 });
 
 router.get('/:id/download', (req,res) => {
-    if(req.file){
-        const {path} = req.file;
-        res.json({path});
-    }
-    res.json();
+    const { id } = req.params;
+
+    const {books} = bookStorage;
+
+    const findBook = books.find((book) => book.id === id);
+    const path = findBook.fileBook;
+
+    res.download(path);
+    res.status(200);
+    res.send({ findBook });
 });
 

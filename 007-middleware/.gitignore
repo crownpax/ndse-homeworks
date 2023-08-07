@@ -1,5 +1,5 @@
 #configs
 .env
 
-#folders
-public/
+#other
+*.png

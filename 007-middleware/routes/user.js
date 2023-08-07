@@ -1,8 +1,6 @@
 import express from 'express';
+import { createLogin } from '../controllers/index.js';
 
 export const router = express.Router();
 
-router.post('/login', (req,res) => {
-    res.status(201);
-    res.json({id: 1, mail: 'test@mail.ru'});
-});
+router.post('/login', createLogin);

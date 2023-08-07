@@ -1,7 +1,6 @@
 import express from 'express';
+import { getStart } from '../controllers/index.js';
 
 export const router = express.Router();
 
-router.get('/', function(req, res) {
-    res.send("Let is get it started!");
-});
+router.get('/', getStart);

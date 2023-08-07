@@ -1,17 +1,6 @@
 import express from 'express';
-import multer  from'multer';
 import Book from '../models/Books.js';
-
-const storage = multer.diskStorage({
-    destination(req, file, cb){
-        cb(null, 'uploads/')
-    },
-    filename(req, file, cb) {
-        cb(null, `${Date.now()}-${file.originalname}`)
-    }
-})
-
-const upload = multer({ storage })
+import { fileMulter } from "../middlewares/index.js";
 
 export const router = express.Router();
 
@@ -38,7 +27,7 @@ router.get('/:id', (req,res) => {
     }
 });
 
-router.post('/', (req,res) => {
+router.post('/', fileMulter.single('book'), (req,res) => {
     const {books} = bookStorage;
     const {
         title,
@@ -46,8 +35,7 @@ router.post('/', (req,res) => {
         authors,
         favorite,
         fileCover,
-        fileName,
-        fileBook
+        fileName
     } = req.body;
 
     const newBook = new Book(
@@ -57,7 +45,7 @@ router.post('/', (req,res) => {
         favorite,
         fileCover,
         fileName,
-        fileBook
+        req.file
     );
     books.push(newBook);
 
@@ -65,7 +53,7 @@ router.post('/', (req,res) => {
     res.json(newBook);
 });
 
-router.put('/:id', (req,res) => {
+router.put('/:id', fileMulter.single('book'), (req,res) => {
     const {books} = bookStorage;
     const {
         title,
@@ -77,6 +65,8 @@ router.put('/:id', (req,res) => {
         fileBook
     } = req.body;
     const {id} = req.params;
+    const {filename, path} = req.file;
+
     const idx = books.findIndex(el => el.id === id);
 
     if (idx !== -1){
@@ -87,8 +77,8 @@ router.put('/:id', (req,res) => {
             authors,
             favorite,
             fileCover,
-            fileName,
-            fileBook
+            fileName: filename || fileName,
+            fileBook: path || fileBook
         }
 
         res.status(200);
@@ -114,7 +104,7 @@ router.delete('/:id', (req,res) => {
     }
 });
 
-router.get('/:id/download', upload.single('book'), (req,res) => {
+router.get('/:id/download', (req,res) => {
     if(req.file){
         const {path} = req.file;
         res.json({path});
